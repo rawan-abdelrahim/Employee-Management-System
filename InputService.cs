@@ -1,9 +1,14 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Employee_Management_System
 {
-    public static class InputService
+    internal class InputService
     {
+
         public static T GetValidInput<T>(string prompt, Func<string, T> validator, int maxAttempts = 3)
         {
             int attempts = 0;
@@ -38,3 +43,4 @@ namespace Employee_Management_System
         }
     }
 }
+

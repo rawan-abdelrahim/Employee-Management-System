@@ -3,12 +3,16 @@ public class Department
     public string Name;
     public string DepartmentHead;
     private List<Employee> employees;
+    private topPerformers = new List<Employee>();
+
 
     public Department(string name, string departmentHead)
     {
         Name = name;
         DepartmentHead = departmentHead;
         employees = new List<Employee>();
+        topPerformers = new List<Employee>();
+
     }
 
     public void AddEmployee(Employee employee)
@@ -72,5 +76,23 @@ public class Department
             Console.WriteLine(emp);
         }
     }
+
+     public void ShowTopPerformance()
+  {
+     Employee emp = employees[0];
+     for (int i = 0; i < employees.Count; i++)
+     {
+         if (employees[i].getPerformanceRating() > emp.getPerformanceRating())
+             emp = employees[i];
+         int index = i;
+     }
+     topPerformers.Add(emp);
+     for (int i = 0; i < 2; i++)
+     {
+         Console.WriteLine($"Top performers is {topPerformers[i].getName()}");
+
+     }
+ }
+    
     
 }

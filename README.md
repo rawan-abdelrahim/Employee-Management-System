@@ -1,42 +1,87 @@
 # Employee Management System (EMS)
 
 ## Overview
-The Employee Management System (EMS) is a C# object-oriented console application designed for mid-sized companies to manage employee records efficiently. The system tracks employee details, performance, promotions, and department transfers while generating valuable reports for HR and management.
+The Employee Management System (EMS) is a C# object-oriented console application designed to help a mid-sized company manage its employee records, track performance and promotions, and generate various analytical reports. The system automates employee lifecycle operations—from hiring and promotions to department transfers and terminations—while preserving historical data.
 
-## Features
-- **Employee Management**
-  - **Record Keeping:** Each employee is uniquely identified and stores details such as name, age, salary, department, employment date, and job title.
-  - **Lifecycle Operations:**
-    - **Promotion:** Employees can be promoted based on performance ratings and experience, with their salary and job title updated accordingly.
-    - **Transfer:** Employees can be transferred between departments.
-    - **Termination:** Employee status can be updated to inactive without losing historical data.
+## Objective
+Develop a robust EMS that enables a company to:
+- Track employee details (ID, name, age, salary, department, employment date, etc.).
+- Manage department assignments and transfers.
+- Evaluate performance through quarterly ratings and facilitate performance-based promotions.
+- Generate comprehensive reports for informed decision-making.
 
-- **Performance Management**
-  - **Quarterly Ratings:** Employees receive performance ratings on a quarterly basis using a strict format (e.g., `Q1-2025`).
-  - **Data Aggregation:** Methods are included to calculate total and average performance scores to support promotion decisions.
+## Scenario
+A mid-sized company needs an automated system to manage employee records and monitor their performance, enabling timely promotions and department changes. The system also generates insightful reports to assist management in strategic planning and operational decisions.
 
-- **Reporting & Analytics**
-  - Generate reports for employees per department, top performers, and salary distribution.
+## Business Requirements
 
-- **Input Validation**
-  - A dedicated `InputService` class handles user input and validation, ensuring data consistency. Users have three attempts to enter valid values before the program terminates.
+### 1. Employee Management
+- **Employee Data:**  
+  - Each employee has a unique ID, name, age, salary, department, and employment date.
+- **Employee Operations:**  
+  - **Promotion:** Employees are promoted based on their performance ratings and experience. A promotion increases both the salary and job title.
+  - **Transfer:** Employees can be transferred between departments.
+  - **Termination:** When terminated, employees’ records remain in the system for historical tracking.
 
-## Architecture & Design
-- **Separation of Concerns:**  
-  The project is divided into multiple classes to separate business logic (Employee, Department, etc.) from user input handling (InputService) and application orchestration (Program class).
-  
+### 2. Department Management
+- The company operates multiple departments (e.g., HR, IT, Sales, Finance).
+- Each department has a name, a department head, and a list of employees.
+- Department operations include adding and removing employees, ensuring updates are reflected in employee records.
+
+### 3. Performance & Promotions
+- **Quarterly Performance Ratings:**  
+  Employees receive performance ratings every quarter.
+- **Promotion Criteria:**  
+  Consistently high ratings make employees eligible for promotions.
+- **Promotion Impact:**  
+  Promotions result in an increase in salary and an update of the job title.
+
+### 4. Reports & Analytics
+The system generates various reports including:
+- A list of employees by department.
+- Identification of top-performing employees.
+- Analysis of salary distribution.
+
+## System Design & Class Structure
+- **Employee Class:**  
+  Handles employee-related data and operations, such as promotion, transfer, termination, and performance ratings.
+- **Department Class:**  
+  Manages department information and operations including adding or removing employees.
+- **Company Class:**  
+  Integrates employee and department functionalities for overall company management.
+- **PerformanceReview Class:**  
+  Implements logic for evaluating performance based on quarterly ratings.
+
+### Key Design Principles:
+- **Encapsulation:**  
+  Employee data and operations are encapsulated within classes to protect and manage state effectively.
+- **Composition:**  
+  Departments contain lists of employees, ensuring department switching updates employee records.
 - **SOLID Principles:**  
-  The design adheres to SOLID principles ensuring that each class has a single responsibility and that the system is modular and maintainable.
+  Each class is designed with a single responsibility, making the system modular, maintainable, and scalable.
 
-## Project Structure
-- `Employee.cs`  
-  Contains the Employee class with properties, methods for performance management, promotions, transfers, and termination.
-  
-- `InputService.cs`  
-  Provides generic methods for input gathering and validation.
-  
-- `Program.cs`  
-  The entry point of the application. This class orchestrates the workflow by using InputService to collect user input and create/manage Employee objects.
+## Implementation Details
+- **Employee Operations:**  
+  The Employee class includes methods such as `Promote()`, `TransferDepartment()`, `Terminate()`, and performance rating management.
+- **Input Handling & Exception Management:**  
+  A dedicated InputService class handles user input with validation and error handling (allowing multiple attempts before terminating the application).
+- **Data Storage:**  
+  Employee records and performance ratings are stored in in-memory collections with potential for file-based persistence as a future enhancement.
+
+## User Interaction & Menu System
+The EMS provides a menu-driven interface that allows users to:
+- Add or view employee records.
+- Manage department details.
+- Add performance ratings.
+- Promote employees based on defined criteria.
+- Generate various reports (employees by department, top performers, salary distribution).
+
+## Testing & Enhancements (BONUS)
+- Comprehensive testing ensures all features work as expected.
+- Future enhancements may include:
+  - File-based or database persistence.
+  - A more user-friendly interface.
+  - Additional reporting and analytics features.
 
 ## Getting Started
 

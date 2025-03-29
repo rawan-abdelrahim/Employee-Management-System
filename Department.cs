@@ -72,4 +72,21 @@ public class Department
             Console.WriteLine(emp);
         }
     }
+    public void ShowTopPerformance()
+    {
+        Employee emp =employees[0];
+        list<Employee> topperformers=new list<Employee>();
+        for(int i=0;i<Employees.Count:i++)
+        {
+            if(Employees[i].getPerformanceRating()>emp.getPerformanceRating())
+                emp=Employees[i];
+                index=i;
+            
+        }
+        topPrformers.Add(emp);
+        for(int i=0;i<2;i++)
+        {
+             Console.WriteLine($"Top performers is {topPrformers[i].getName()}");
+            
+        }
 }

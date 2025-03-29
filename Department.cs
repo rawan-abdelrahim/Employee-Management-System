@@ -3,7 +3,8 @@ public class Department
     public string Name;
     public string DepartmentHead;
     private List<Employee> employees;
-    private topPerformers = new List<Employee>();
+    private List<Employee> topPerformers;
+
 
 
     public Department(string name, string departmentHead)

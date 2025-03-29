@@ -1,10 +1,8 @@
-sing System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Employee_Management_System
 {
@@ -17,10 +15,22 @@ namespace Employee_Management_System
         private decimal _salary;
         private readonly DateTime _employmentDate;
         private string _jobTitle;
-        Dictionary<int, float[]> _performanceRatings;
-        private bool _isActive;
+        private Dictionary<int, float[]> _performanceRatings;
+        private bool _isActive ;
         private DateTime _terminatedDate;
 
+        public Employee(int employeeID, string name, int age, string jobTitle, decimal salary, DateTime employmentDate)
+        {
+            _employeeID = employeeID;
+            Age = age;
+
+            _name = name;
+            JobTitle = jobTitle;
+            _employmentDate = employmentDate;
+            Salary = salary;
+            _isActive = true;
+
+        }
         public Employee(int employeeID, string name, int age, string department, decimal salary, DateTime employmentDate, string jobTitle)
         {
             _employeeID = employeeID;
@@ -32,6 +42,7 @@ namespace Employee_Management_System
             JobTitle = jobTitle;
             _isActive = true;
             _performanceRatings = new Dictionary<int, float[]>();
+
         }
 
         public int EmployeeID => _employeeID;
@@ -39,13 +50,11 @@ namespace Employee_Management_System
         public string Name
         {
             get => _name;
-
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Name cannot be empty.");
-
-                    _name = value;
+                _name = value;
             }
         }
 
@@ -56,10 +65,10 @@ namespace Employee_Management_System
             {
                 if (value < 18)
                     throw new ArgumentException("Age must be 18 or above.");
-
                 _age = value;
             }
         }
+
         public string Department
         {
             get => _department;
@@ -67,7 +76,6 @@ namespace Employee_Management_System
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Department cannot be empty.");
-
                 _department = value;
             }
         }
@@ -79,7 +87,6 @@ namespace Employee_Management_System
             {
                 if (value < 0)
                     throw new ArgumentException("Salary cannot be negative.");
-
                 _salary = value;
             }
         }
@@ -89,12 +96,10 @@ namespace Employee_Management_System
         public string JobTitle
         {
             get => _jobTitle;
-
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Job Title cannot be empty.");
-
                 _jobTitle = value;
             }
         }
@@ -110,7 +115,8 @@ namespace Employee_Management_System
         }
 
         public DateTime TerminatedDate => _terminatedDate;
-        public void AddPerformanceRating(int quarter, float rating)
+
+        public void AddPerformanceRating(int quarter, float rating, int year)
         {
             if (quarter < 1 || quarter > 4)
                 throw new ArgumentException("Invalid quarter. Quarter must be between 1 and 4.");
@@ -118,19 +124,38 @@ namespace Employee_Management_System
             if (rating < 1 || rating > 5)
                 throw new ArgumentException("Performance rating must be between 1 and 5.");
 
+            if (year.ToString().Length != 4)
+                throw new ArgumentException("Year must be a four-digit number.");
+
             int currentYear = DateTime.Now.Year;
 
-            if (!_performanceRatings.ContainsKey(currentYear))
+            if (year < _employmentDate.Year)
+                throw new ArgumentException($"Year cannot be earlier than the employee's hiring date ({_employmentDate.Year}).");
+
+            if (year > currentYear)
+                throw new ArgumentException($"Cannot add ratings for a future year ({year}).");
+
+            if (_performanceRatings == null)
             {
-                _performanceRatings[currentYear] = new float[4];
+                _performanceRatings = new Dictionary<int, float[]>();
             }
 
-            _performanceRatings[currentYear][quarter - 1] = rating;
+            for (int y = _employmentDate.Year; y <= currentYear; y++)
+            {
+                if (!_performanceRatings.ContainsKey(y))
+                {
+                    _performanceRatings[y] = new float[] { 0, 0, 0, 0 }; 
+                }
+            }
+
+            _performanceRatings[year][quarter - 1] = rating;
+
+            Console.WriteLine($"Performance rating for {year} Q{quarter} set to {rating}.");
         }
+
 
         public float[] GetQuarterlyRatings(int year)
         {
-
             if (!_performanceRatings.ContainsKey(year))
             {
                 throw new KeyNotFoundException($"No performance ratings found for year {year}.");
@@ -143,7 +168,7 @@ namespace Employee_Management_System
         {
             float totalRate = 0;
 
-            foreach(float rate in _performanceRatings[year])
+            foreach (float rate in _performanceRatings[year])
             {
                 totalRate += rate;
             }
@@ -152,6 +177,6 @@ namespace Employee_Management_System
 
             return totalRate;
         }
-        
     }
+}
 
